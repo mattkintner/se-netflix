@@ -4,7 +4,7 @@
 
 import unittest
 
-from Netflix import netflix_learn, netflix_eval, netflix_print
+from Netflix import netflix_learn, netflix_eval, netflix_print, ratingProfile, custProfile, movieProfile
 
 # ------
 # Reader
@@ -35,46 +35,62 @@ class Writer (object) :
 # -----------
 
 class TestNetflix(unittest.TestCase) :
+    
     # ----
-    # read
-    # ----
-
-    def test_read (self) :
-        r = Reader("1 10\n")
-        a = []
-        b = netflix_read(r, a)
-        self.assert_(b    == True)
-        self.assert_(a[0] ==  1)
-        self.assert_(a[1] == 10)
-
-    # ----
-    # eval
+    # rating profile
     # ----
 
-    def test_eval_1 (self) :
-        v = netflix_eval([1, 10])
-        self.assert_(v == 20)
+    def test_custRatings (self) :
+        p = custProfile()
+        self.assert_(p.avgRating    == 0)
+        self.assert_(p.numRated     == 0)
+        self.assert_(p.Q            == 0)
+        self.assert_(p.stdDev       == 0)
+        
+        p.addRating(2)
+        p.addRating(4)
+        p.addRating(4)
+        p.addRating(4)
+        p.addRating(5)
+        p.addRating(5)
+        p.addRating(7)
+        p.addRating(9)
+        self.assert_(p.numRated     == 8)
+        self.assert_(p.avgRating    == 5)
+        self.assert_(p.stdDev       == 2)
 
-    def test_eval_2 (self) :
-        v = netflix_eval([100, 200])
-        self.assert_(v == 125)
+    def test_movieRatings (self) :
+        p = movieProfile()
+        self.assert_(p.avgRating    == 0)
+        self.assert_(p.numRated     == 0)
+        self.assert_(p.Q            == 0)
+        self.assert_(p.stdDev       == 0)
+        
+        p.addRating(2)
+        p.addRating(4)
+        p.addRating(4)
+        p.addRating(4)
+        p.addRating(5)
+        p.addRating(5)
+        p.addRating(7)
+        p.addRating(9)
+        self.assert_(p.numRated     == 8)
+        self.assert_(p.avgRating    == 5)
+        self.assert_(p.stdDev       == 2)
+        
+    def test_test (self) :
+        d = 17771*[None,]
+        if(d[1] == None):
+            d[1] = movieProfile()
+        d[1].addRating(1)
+        print d[1].avgRating
+        if(d[1] == None):
+            d[1] = movieProfile()
+        d[1].addRating(3)
+        print d[1].avgRating
+        
+        
 
-    def test_eval_3 (self) :
-        v = netflix_eval([201, 210])
-        self.assert_(v == 89)
-
-    def test_eval_4 (self) :
-        v = netflix_eval([900, 1000])
-        self.assert_(v == 174)
-
-    # -----
-    # print
-    # -----
-
-    def test_print (self) :
-        w = Writer()
-        netflix_print(w, [1, 10], 20)
-        self.assert_(w.str() == "1 10 20\n")
 
 if __name__ == "__main__" :
     print "TestNetflix.py"

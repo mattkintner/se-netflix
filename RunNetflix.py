@@ -12,7 +12,8 @@
 # To document the program
 #     pydoc -w Netflix RunNetflix TestNetflix
 
-from Netflix import netflix_read, netflix_eval, netflix_print
+from Netflix import netflix_learn, netflix_eval, netflix_print, netflix_get_cache
+import sys
 
 # ------
 # Reader
@@ -40,7 +41,11 @@ def main () :
     """
     runs the program
     """
-    netflix_read()
+    if "-l" in sys.argv :
+        netflix_learn("-w" in sys.argv)
+    else :
+        netflix_get_cache()
+    netflix_eval()
 
 if __name__ == "__main__" :
     main()
