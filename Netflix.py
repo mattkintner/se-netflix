@@ -81,11 +81,11 @@ def netflix_learn (toFile = True) :
         print "Movie " + str(movieID) + " complete."
 
     if (toFile) :
-        writeCache()
+        write_cache()
 
 
 
-def writeCache() :
+def write_cache() :
     cache = open(META_CACHE_FILE, 'w')
     
     cache.write("from Netflix import movieProfile, custProfile\n\nmovieProfiles = [ None, ")

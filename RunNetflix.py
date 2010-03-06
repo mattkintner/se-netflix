@@ -39,12 +39,16 @@ class Writer (object) :
 
 def main () :
     """
-    runs the program
+    runs the program. Cache used is determined by flags below
+    Default (no flags): use training set to create internal cache (no cache file read or write)
+    @flag   -cw     Cache Write: process training set to write cache to external file
+    @flag   -cr     Cache Read:  use external cache file (no training set processing)
     """
-    if "-l" in sys.argv :
-        netflix_learn("-w" in sys.argv)
+    if "-cr" not in sys.argv :
+        netflix_learn("-cw" in sys.argv)
     else :
         netflix_get_cache()
+    
     netflix_eval()
 
 if __name__ == "__main__" :
