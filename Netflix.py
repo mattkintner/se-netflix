@@ -9,6 +9,11 @@ import os
 
 #   CONSTANTS
 # ----------------------------------
+
+NUM_MOVIES              = 17770
+MOVIE_WEIGHT            = 2.0
+CUST_WEIGHT             = 2.0
+
 ROOT_PATH               = "/u/downing/public_html/projects/netflix/"
 MOVIE_TITLES_PATH       = ROOT_PATH + "movie_titles.txt"
 PROBE_PATH              = ROOT_PATH + "probe.txt"
@@ -21,9 +26,6 @@ CACHE_RATINGS_FILE      = CACHE_RATINGS_MODULE + ".py"
 RATINGS_OUTPUT_FILE     = "RunNetflix.out"
 RMSE_OUTPUT_FILE        = "RMSE"
 
-NUM_MOVIES              = 17770
-MOVIE_WEIGHT            = 2.0
-CUST_WEIGHT             = 2.0
 
 #   GLOBALS
 # ----------------------------------
@@ -88,8 +90,8 @@ def netflix_learn (toFile = True, verbose = False) :
             rating = ord(temp[2][0])-48
             addMovieRating(movieID,custID,rating);
             
-        if verbose
-            print "Movie " + str(movieID) + " complete."
+        if verbose :
+            print "Brain absorbed knowledge of Movie " + str(movieID) + " from training set."
     
     
     # generate actual ratings ordered by probe file
@@ -118,7 +120,7 @@ def netflix_learn (toFile = True, verbose = False) :
                 temp = thisFile[j].partition(",")
                 thisMovieRatings[temp[0]] = ord(temp[2][0])-48
             
-            if verbose
+            if verbose :
                 print "Grabbing Actual Ratings for Movie " + thisID[0:lineLen-1]
         else :
             tempRatings.append(thisMovieRatings[thisID])
@@ -129,7 +131,11 @@ def netflix_learn (toFile = True, verbose = False) :
 
     if (toFile) :
         write_brain()
+        if verbose :
+            print "New 'Brain' Cache written to file: '" + CACHE_BRAIN_FILE + "'"
         write_actualRatings()
+        if verbose :
+            print "New actualRatings Cache written to file: '" + CACHE_RATINGS_FILE + "'"
 
 
 
@@ -206,15 +212,19 @@ def netflix_eval (verbose = False) :
             ourRatings.append(prediction)
             #prediction = int(prediction*10)/10.0
             o.write(str(prediction) + "\n")
-            
     o.close()
+    if verbose :
+        print "Brain predictions written to file: '" + RATINGS_OUTPUT_FILE + "'"
+            
 
     rmseOut = rmse(tuple(actualRatings), tuple(ourRatings))
     if verbose :
-        print rmseOut
+        print "RMSE result: " + rmseOut
     o = open(RMSE_OUTPUT_FILE, 'w')
     o.write(str(rmseOut) + '\n')
     o.close()
+    if verbose :
+        print "RMSE result written to file: '" + RMSE_OUTPUT_FILE + "'"
     
 
 def predict_rating(movieID, custID) :
