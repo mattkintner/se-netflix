@@ -43,13 +43,14 @@ def main () :
     Default (no flags): use training set to create internal cache (no cache file read or write)
     @flag   -cw     Cache Write: process training set to write cache to external file
     @flag   -cr     Cache Read:  use external cache file (no training set processing)
+    @flag   -v      Verbose:  use external cache file (no training set processing)
     """
     if "-cr" not in sys.argv :
-        netflix_learn("-cw" in sys.argv)
+        netflix_learn("-cw" in sys.argv, "-v" in sys.argv)
     else :
         netflix_get_cache()
     
-    netflix_eval()
+    netflix_eval("-v" in sys.argv)
 
 if __name__ == "__main__" :
     main()

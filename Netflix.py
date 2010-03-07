@@ -4,26 +4,29 @@
 # Peter Dorfman   pad574
 # Matt Kintner    mbk229
 # ----------------------------------
-from RMSE import rmse
 import math
 import os
 
 #   CONSTANTS
+# ----------------------------------
 ROOT_PATH               = "/u/downing/public_html/projects/netflix/"
 MOVIE_TITLES_PATH       = ROOT_PATH + "movie_titles.txt"
 PROBE_PATH              = ROOT_PATH + "probe.txt"
 MOVIES_DIR              = ROOT_PATH + "training_set/"
 
-NUM_MOVIES              = 17770
 CACHE_BRAIN_MODULE      = "NetflixCache_" + str(NUM_MOVIES)
 CACHE_BRAIN_FILE        = CACHE_BRAIN_MODULE + ".py"
 CACHE_RATINGS_MODULE    = "NetflixCache_Ratings"
 CACHE_RATINGS_FILE      = CACHE_RATINGS_MODULE + ".py"
+RATINGS_OUTPUT_FILE     = "RunNetflix.out"
+RMSE_OUTPUT_FILE        = "RMSE"
 
-MOVIE_WEIGHT            = 4
-CUST_WEIGHT             = 4
+NUM_MOVIES              = 17770
+MOVIE_WEIGHT            = 2.0
+CUST_WEIGHT             = 2.0
 
 #   GLOBALS
+# ----------------------------------
 movieProfiles = (NUM_MOVIES+1)*[None,]
 custProfiles = {}
 actualRatings = None
@@ -65,7 +68,7 @@ def addMovieRating (movieID, custID, rating) :
     custProfiles[custID].addRating(rating)
     
 
-def netflix_learn (toFile = True) :
+def netflix_learn (toFile = True, verbose = False) :
     """
     description
     return nothing
@@ -78,12 +81,15 @@ def netflix_learn (toFile = True) :
         f = open(thisFile, 'r')
         thisFile = f.readlines()
         f.close()
+        
         for j in range (1, len(thisFile)) :
             temp = thisFile[j].partition(",")
             custID = temp[0]
             rating = ord(temp[2][0])-48
             addMovieRating(movieID,custID,rating);
-        print "Movie " + str(movieID) + " complete."
+            
+        if verbose
+            print "Movie " + str(movieID) + " complete."
     
     
     # generate actual ratings ordered by probe file
@@ -111,6 +117,9 @@ def netflix_learn (toFile = True) :
             for j in range (1, len(thisFile)) :
                 temp = thisFile[j].partition(",")
                 thisMovieRatings[temp[0]] = ord(temp[2][0])-48
+            
+            if verbose
+                print "Grabbing Actual Ratings for Movie " + thisID[0:lineLen-1]
         else :
             tempRatings.append(thisMovieRatings[thisID])
             
@@ -134,7 +143,7 @@ def write_brain() :
             cache.write("movieProfile(" + str(movieProf.avgRating) + "," + str(movieProf.numRated) + "," + str(movieProf.Q) + "," + str(movieProf.stdDev) + "), ")
         
     cache.write(" ]\n\ncustProfiles = { ")
-    print(len(custProfiles))
+    
     for custID, custProf in custProfiles.iteritems():
         cache.write("'" + str(custID) + "' : custProfile(" + str(custProf.avgRating) + "," + str(custProf.numRated) + "," + str(custProf.Q) + "," + str(custProf.stdDev) + "), ")
         
@@ -165,7 +174,7 @@ def netflix_get_cache() :
 # netflix_eval
 # ------------
 
-def netflix_eval () :
+def netflix_eval (verbose = False) :
     """
     FIXME: description
     return FIXME: something
@@ -179,6 +188,8 @@ def netflix_eval () :
         probe = f.read()
         f.close()
         probe = probe.splitlines()
+        
+    o = open(RATINGS_OUTPUT_FILE, 'w')
     
     movieID = 0
     
@@ -189,12 +200,21 @@ def netflix_eval () :
         
         if i > -1 :  # Movie ID - read movie entries
             movieID = int(thisID[0:i])
+            o.write(thisID + "\n")
         else :
-            ourRatings.append(predict_rating(movieID,thisID))
+            prediction = predict_rating(movieID,thisID)
+            ourRatings.append(prediction)
+            #prediction = int(prediction*10)/10.0
+            o.write(str(prediction) + "\n")
             
-    
+    o.close()
 
-    print rmse(tuple(actualRatings), tuple(ourRatings))
+    rmseOut = rmse(tuple(actualRatings), tuple(ourRatings))
+    if verbose :
+        print rmseOut
+    o = open(RMSE_OUTPUT_FILE, 'w')
+    o.write(str(rmseOut) + '\n')
+    o.close()
     
 
 def predict_rating(movieID, custID) :
@@ -214,6 +234,26 @@ def netflix_print (w, a, v) :
     """
     
 
+def rmse (a, p) :
+    assert type(a) == tuple
+    assert type(p) == tuple
+    assert len(a)  == len(p)
+    i = 0
+    s = len(a)
+    w = 0
+    while i != s :
+        v = a[i] - float(p[i])
+        w += (v * v)
+        i += 1
+    assert type(w) is float
+    assert 0 <= w <= (16 * s)
+    m = (w / s)
+    assert type(m) is float
+    assert 0 <= m <= 16
+    r = math.sqrt(m)
+    assert type(r) is float
+    assert 0 <= r <= 4
+    return r
 
 
 def netflix_testreading () :
