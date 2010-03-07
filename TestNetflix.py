@@ -37,16 +37,27 @@ class Writer (object) :
 class TestNetflix(unittest.TestCase) :
     
     # ----
-    # rating profile
+    # rating profiles
     # ----
 
-    def test_custRatings (self) :
+    def test_createMovieRating (self) :
+        m = movieProfile()
+        self.assert_(m.avgRating    == 0)
+        self.assert_(m.numRated     == 0)
+        self.assert_(m.Q            == 0)
+        self.assert_(m.stdDev       == 0)
+
+    def test_createCustRating (self) :
         p = custProfile()
         self.assert_(p.avgRating    == 0)
         self.assert_(p.numRated     == 0)
         self.assert_(p.Q            == 0)
         self.assert_(p.stdDev       == 0)
         
+        
+        
+    def test_addCustRatings (self) :
+        p = custProfile()
         p.addRating(2)
         p.addRating(4)
         p.addRating(4)
@@ -59,13 +70,12 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(p.avgRating    == 5)
         self.assert_(p.stdDev       == 2)
 
-    def test_movieRatings (self) :
+    def test_addMovieRatings (self) :
         p = movieProfile()
         self.assert_(p.avgRating    == 0)
         self.assert_(p.numRated     == 0)
         self.assert_(p.Q            == 0)
         self.assert_(p.stdDev       == 0)
-        
         p.addRating(2)
         p.addRating(4)
         p.addRating(4)
@@ -77,19 +87,14 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(p.numRated     == 8)
         self.assert_(p.avgRating    == 5)
         self.assert_(p.stdDev       == 2)
-        
-    def test_test (self) :
-        d = 17771*[None,]
-        if(d[1] == None):
-            d[1] = movieProfile()
-        d[1].addRating(1)
-        print d[1].avgRating
-        if(d[1] == None):
-            d[1] = movieProfile()
-        d[1].addRating(3)
-        print d[1].avgRating
-        
-        
+
+
+    # ----
+    # rating profiles
+    # ----
+
+    def test_movieRatings (self) :
+        pass
 
 
 if __name__ == "__main__" :

@@ -154,17 +154,18 @@ def write_brain() :
         cache.write("'" + str(custID) + "' : custProfile(" + str(custProf.avgRating) + "," + str(custProf.numRated) + "," + str(custProf.Q) + "," + str(custProf.stdDev) + "), ")
         
     cache.write(" }\n")
+    cache.close()
     
     
 def write_actualRatings() :
     cache = open(CACHE_RATINGS_FILE, 'w')
-    
     cache.write("actualRatings = ( ")
     
     for thisRating in actualRatings:
         cache.write( str(thisRating) + ", ")
         
     cache.write(" )\n")
+    cache.close()
 
 
 def netflix_get_cache() :
