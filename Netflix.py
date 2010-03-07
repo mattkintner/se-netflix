@@ -9,21 +9,25 @@ import math
 import os
 
 #   CONSTANTS
-ROOT_PATH           = "/u/downing/public_html/projects/netflix/"
-MOVIE_TITLES_PATH   = ROOT_PATH + "movie_titles.txt"
-PROBE_PATH          = ROOT_PATH + "probe.txt"
-MOVIES_DIR          = ROOT_PATH + "training_set/"
+ROOT_PATH               = "/u/downing/public_html/projects/netflix/"
+MOVIE_TITLES_PATH       = ROOT_PATH + "movie_titles.txt"
+PROBE_PATH              = ROOT_PATH + "probe.txt"
+MOVIES_DIR              = ROOT_PATH + "training_set/"
 
-NUM_MOVIES          = 17770
-META_CACHE_MODULE   = "NetflixCache_" + str(NUM_MOVIES)
-META_CACHE_FILE     = META_CACHE_MODULE + ".py"
+NUM_MOVIES              = 17770
+CACHE_BRAIN_MODULE      = "NetflixCache_" + str(NUM_MOVIES)
+CACHE_BRAIN_FILE        = CACHE_BRAIN_MODULE + ".py"
+CACHE_RATINGS_MODULE    = "NetflixCache_Ratings"
+CACHE_RATINGS_FILE      = CACHE_RATINGS_MODULE + ".py"
 
-MOVIE_WEIGHT        = 4
-CUST_WEIGHT         = 4
+MOVIE_WEIGHT            = 4
+CUST_WEIGHT             = 4
 
 #   GLOBALS
 movieProfiles = (NUM_MOVIES+1)*[None,]
 custProfiles = {}
+actualRatings = None
+probe = None
 
 
 class ratingProfile (object) :
@@ -66,8 +70,9 @@ def netflix_learn (toFile = True) :
     description
     return nothing
     """
-    global MOVIES_DIR
+    global MOVIES_DIR, actualRatings, probe
     
+    # gather all ratings data from training set
     for movieID in range(1,NUM_MOVIES + 1):
         thisFile = MOVIES_DIR + ("mv_00%05d.txt" % movieID);
         f = open(thisFile, 'r')
@@ -79,49 +84,9 @@ def netflix_learn (toFile = True) :
             rating = ord(temp[2][0])-48
             addMovieRating(movieID,custID,rating);
         print "Movie " + str(movieID) + " complete."
-
-    if (toFile) :
-        write_cache()
-
-
-
-def write_cache() :
-    cache = open(META_CACHE_FILE, 'w')
     
-    cache.write("from Netflix import movieProfile, custProfile\n\nmovieProfiles = [ None, ")
     
-    for movieProf in movieProfiles:
-        if movieProf != None:
-            cache.write("movieProfile(" + str(movieProf.avgRating) + "," + str(movieProf.numRated) + "," + str(movieProf.Q) + "," + str(movieProf.stdDev) + "), ")
-        
-    cache.write("None ]\n\ncustProfiles = { ")
-    print(len(custProfiles))
-    for custID, custProf in custProfiles.iteritems():
-        cache.write("'" + str(custID) + "' : custProfile(" + str(custProf.avgRating) + "," + str(custProf.numRated) + "," + str(custProf.Q) + "," + str(custProf.stdDev) + "), ")
-        
-    cache.write("-1 : None }\n")
-
-
-def netflix_get_cache() :
-    global movieProfiles, custProfiles
-    cache = __import__(META_CACHE_MODULE,fromlist=["movieProfiles", "custProfiles"])
-    movieProfiles = cache.movieProfiles
-    custProfiles = cache.custProfiles
-
-
-# ------------
-# netflix_eval
-# ------------
-
-def netflix_eval () :
-    """
-    FIXME: description
-    return FIXME: something
-    """
-    
-    actualRatings = []
-    ourRatings = []
-    
+    # generate actual ratings ordered by probe file
     f = open(PROBE_PATH)
     probe = f.read()
     f.close()
@@ -130,6 +95,7 @@ def netflix_eval () :
     movieID = 0
     
     thisMovieRatings = {}
+    tempRatings = []
     
     for thisID in probe:
         i = thisID.find(":")
@@ -146,7 +112,84 @@ def netflix_eval () :
                 temp = thisFile[j].partition(",")
                 thisMovieRatings[temp[0]] = ord(temp[2][0])-48
         else :
-            actualRatings.append(thisMovieRatings[thisID])
+            tempRatings.append(thisMovieRatings[thisID])
+            
+    actualRatings = tuple(tempRatings)
+            
+            
+
+    if (toFile) :
+        write_brain()
+        write_actualRatings()
+
+
+
+def write_brain() :
+    cache = open(CACHE_BRAIN_FILE, 'w')
+    
+    cache.write("from Netflix import movieProfile, custProfile\n\nmovieProfiles = [ None, ")
+    
+    for movieProf in movieProfiles:
+        if movieProf != None:
+            cache.write("movieProfile(" + str(movieProf.avgRating) + "," + str(movieProf.numRated) + "," + str(movieProf.Q) + "," + str(movieProf.stdDev) + "), ")
+        
+    cache.write(" ]\n\ncustProfiles = { ")
+    print(len(custProfiles))
+    for custID, custProf in custProfiles.iteritems():
+        cache.write("'" + str(custID) + "' : custProfile(" + str(custProf.avgRating) + "," + str(custProf.numRated) + "," + str(custProf.Q) + "," + str(custProf.stdDev) + "), ")
+        
+    cache.write(" }\n")
+    
+    
+def write_actualRatings() :
+    cache = open(CACHE_RATINGS_FILE, 'w')
+    
+    cache.write("actualRatings = ( ")
+    
+    for thisRating in actualRatings:
+        cache.write( str(thisRating) + ", ")
+        
+    cache.write(" )\n")
+
+
+def netflix_get_cache() :
+    global movieProfiles, custProfiles, actualRatings
+    cache_brain = __import__(CACHE_BRAIN_MODULE,fromlist=["movieProfiles", "custProfiles"])
+    cache_ratings = __import__(CACHE_RATINGS_MODULE,fromlist=["actualRatings"])
+    movieProfiles = cache_brain.movieProfiles
+    custProfiles = cache_brain.custProfiles
+    actualRatings = cache_ratings.actualRatings
+
+
+# ------------
+# netflix_eval
+# ------------
+
+def netflix_eval () :
+    """
+    FIXME: description
+    return FIXME: something
+    """
+    
+    global actualRatings, probe
+    ourRatings = []
+    
+    if probe == None :
+        f = open(PROBE_PATH)
+        probe = f.read()
+        f.close()
+        probe = probe.splitlines()
+    
+    movieID = 0
+    
+    thisMovieRatings = {}
+    
+    for thisID in probe:
+        i = thisID.find(":")
+        
+        if i > -1 :  # Movie ID - read movie entries
+            movieID = int(thisID[0:i])
+        else :
             ourRatings.append(predict_rating(movieID,thisID))
             
     
