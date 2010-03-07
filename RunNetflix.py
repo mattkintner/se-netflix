@@ -12,7 +12,7 @@
 # To document the program
 #     pydoc -w Netflix RunNetflix TestNetflix
 
-from Netflix import netflix_learn, netflix_eval, netflix_print, netflix_get_cache
+from Netflix import netflix_learn, netflix_eval, netflix_get_cache
 import sys
 
 # ------
