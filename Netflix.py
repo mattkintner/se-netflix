@@ -36,6 +36,9 @@ probe = None
 
 
 class ratingProfile (object) :
+    """
+    Represents average rating and standard deviation used in a movie or customer profile.
+    """
     
     def __init__(self, avgRating = 0.0, numRated = 0.0, Q = 0.0, stdDev = 0.0):
         self.avgRating = avgRating
@@ -44,6 +47,11 @@ class ratingProfile (object) :
         self.stdDev = stdDev
     
     def addRating(self, rating) :
+        """
+        Add rating into statistics for this profile.
+        @param rating: rating to include
+        @type rating: int
+        """
         self.numRated += 1
         oldAvg = self.avgRating
         self.avgRating = oldAvg + ((rating-oldAvg)/self.numRated)
@@ -52,13 +60,32 @@ class ratingProfile (object) :
             
     
 class custProfile (ratingProfile) :
+    """
+    Profile of a customer, including rating statistics.
+    """
     pass
 
 class movieProfile (ratingProfile) :
+    """
+    Profile of a movie, including rating statistics.
+    """
     pass
 
+# --------------
+# addMovieRating
+# --------------
+
 def addMovieRating (movieID, custID, rating) :
-    
+    """
+	Factor movie rating into averages of movie and customer.
+    @param movieID: ID of movie  
+    @type movieID: int
+    @param custID: ID of customer
+    @type custID: string
+    @param rating: rating given by customer to movie
+    @type rating: int
+    """
+
     global movieProfiles, custProfiles
     
     if(movieProfiles[movieID] == None):
@@ -70,10 +97,17 @@ def addMovieRating (movieID, custID, rating) :
     custProfiles[custID].addRating(rating)
     
 
+# -------------
+# netflix_learn
+# -------------
+
 def netflix_learn (toFile = True, verbose = False) :
     """
-    description
-    return nothing
+    Read entire training set and calculate average ratings for movies and customers.
+    @param toFile: store learned data to cache file
+    @type toFile: bool
+    @param verbose: print status during learning
+    @type verbose: bool
     """
     global MOVIES_DIR, actualRatings, probe
     
@@ -138,8 +172,14 @@ def netflix_learn (toFile = True, verbose = False) :
             print "New actualRatings Cache written to file: '" + CACHE_RATINGS_FILE + "'"
 
 
+# -----------
+# write_brain
+# -----------
 
 def write_brain() :
+    """
+    Store movie and customer profiles to cache.
+    """
     cache = open(CACHE_BRAIN_FILE, 'w')
     
     cache.write("from Netflix import movieProfile, custProfile\n\nmovieProfiles = [ None, ")
@@ -156,8 +196,15 @@ def write_brain() :
     cache.write(" }\n")
     cache.close()
     
+
+# -------------------
+# write_actualRatings
+# -------------------
     
 def write_actualRatings() :
+    """
+    Store actual ratings to cache file.
+    """
     cache = open(CACHE_RATINGS_FILE, 'w')
     cache.write("actualRatings = ( ")
     
@@ -167,8 +214,14 @@ def write_actualRatings() :
     cache.write(" )\n")
     cache.close()
 
+# -----------------
+# netflix_get_cache
+# -----------------
 
 def netflix_get_cache() :
+    """
+    Load movie and customer profiles and actual ratings from cache.
+    """
     global movieProfiles, custProfiles, actualRatings
     cache_brain = __import__(CACHE_BRAIN_MODULE,fromlist=["movieProfiles", "custProfiles"])
     cache_ratings = __import__(CACHE_RATINGS_MODULE,fromlist=["actualRatings"])
@@ -183,8 +236,9 @@ def netflix_get_cache() :
 
 def netflix_eval (verbose = False) :
     """
-    FIXME: description
-    return FIXME: something
+    Use learned data to evaluate and predict ratings of other movies.
+    @param verbose: print status during evaulation
+    @type verbose: bool
     """
     
     global actualRatings, probe
@@ -234,18 +288,26 @@ def predict_rating(movieID, custID) :
     custAvg = custProfiles[custID].avgRating
     custStd = custProfiles[custID].stdDev
     return (movieAvg * (MOVIE_WEIGHT - movieStd) + custAvg * (CUST_WEIGHT - custStd)) / (MOVIE_WEIGHT + CUST_WEIGHT - movieStd - custStd)
-
-# -------------
-# netflix_print
-# -------------
-
-def netflix_print (w, a, v) :
-    """
-    prints the values of a[0], a[1], and v
-    """
     
 
+# -----------------------
+# rmse
+#
+# (from provided RMSE.py)
+# -----------------------
+
 def rmse (a, p) :
+    """
+    Calculate RMSE.
+
+    From provided RMSE.py
+    @param a: actual ratings
+    @type a: tuple
+    @param p: predicted ratings
+    @type p: tuple
+    @return: root mean squared error
+    @rtype: float
+    """
     assert type(a) == tuple
     assert type(p) == tuple
     assert len(a)  == len(p)
@@ -267,10 +329,13 @@ def rmse (a, p) :
     return r
 
 
+# -------------------
+# netflix_testreading
+# -------------------
+
 def netflix_testreading () :
     """
-    FIXME: description
-    return FIXME: something
+    Predict ratings of all 3's.
     """
     
     trainingData = []
