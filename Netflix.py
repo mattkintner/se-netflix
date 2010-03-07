@@ -219,7 +219,7 @@ def netflix_eval (verbose = False) :
 
     rmseOut = rmse(tuple(actualRatings), tuple(ourRatings))
     if verbose :
-        print "RMSE result: " + rmseOut
+        print "RMSE result: " + str(rmseOut)
     o = open(RMSE_OUTPUT_FILE, 'w')
     o.write(str(rmseOut) + '\n')
     o.close()
