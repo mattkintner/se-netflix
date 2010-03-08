@@ -12,7 +12,7 @@
 # To document the program
 #     pydoc -w Netflix RunNetflix TestNetflix
 
-from Netflix import netflix_learn, netflix_eval, netflix_print, netflix_get_cache
+import Netflix
 import sys
 
 # ------
@@ -45,12 +45,16 @@ def main () :
     @flag   -cr     Cache Read:  use external cache file (no training set processing)
     @flag   -v      Verbose:  use external cache file (no training set processing)
     """
-    if "-cr" not in sys.argv :
-        netflix_learn("-cw" in sys.argv, "-v" in sys.argv)
-    else :
-        netflix_get_cache()
     
-    netflix_eval("-v" in sys.argv)
+    Netflix.verbose = "-v" in sys.argv
+    Netflix.toFile = "-cw" in sys.argv
+    
+    if "-cr" not in sys.argv :
+        Netflix.netflix_learn()
+    else :
+        Netflix.netflix_get_cache()
+    
+    Netflix.netflix_eval()
 
 if __name__ == "__main__" :
     main()

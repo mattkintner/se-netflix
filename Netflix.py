@@ -5,7 +5,7 @@
 # Matt Kintner    mbk229
 # ----------------------------------
 import math
-import os
+import os, sys
 
 #   CONSTANTS
 # ----------------------------------
@@ -29,6 +29,11 @@ RMSE_OUTPUT_FILE        = "RMSE"
 
 #   GLOBALS
 # ----------------------------------
+# flags
+toFile = True
+verbose = False
+testing = False
+
 movieProfiles = (NUM_MOVIES+1)*[None,]
 custProfiles = {}
 actualRatings = None
@@ -40,13 +45,24 @@ class ratingProfile (object) :
     Represents average rating and standard deviation used in a movie or customer profile.
     """
     
-    def __init__(self, avgRating = 0.0, numRated = 0.0, Q = 0.0, stdDev = 0.0):
+    def __init__(self, avgRating = 0.0, numRated = 0, Q = 0.0, stdDev = 0.0):
+        """
+        Initialize this profile.
+        @param  avgRating:
+        @type   avgRating:  float
+        @param  numRated:   
+        @type   numRated:   int
+        @param  Q:          
+        @type   Q:          float
+        @param  stdDev:     
+        @type   stdDev:     float
+        """
         self.avgRating = avgRating
         self.numRated = numRated
         self.Q = Q
         self.stdDev = stdDev
     
-    def addRating(self, rating) :
+    def add_rating(self, rating) :
         """
         Add rating into statistics for this profile.
         @param rating: rating to include
@@ -75,7 +91,7 @@ class movieProfile (ratingProfile) :
 # addMovieRating
 # --------------
 
-def addMovieRating (movieID, custID, rating) :
+def add_movie_rating (movieID, custID, rating) :
     """
 	Factor movie rating into averages of movie and customer.
     @param movieID: ID of movie  
@@ -85,23 +101,22 @@ def addMovieRating (movieID, custID, rating) :
     @param rating: rating given by customer to movie
     @type rating: int
     """
-
     global movieProfiles, custProfiles
     
     if(movieProfiles[movieID] == None):
         movieProfiles[movieID] = movieProfile()
-    movieProfiles[movieID].addRating(rating)
+    movieProfiles[movieID].add_rating(rating)
     
     if(custID not in custProfiles):
         custProfiles[custID] = custProfile()
-    custProfiles[custID].addRating(rating)
+    custProfiles[custID].add_rating(rating)
     
 
 # -------------
 # netflix_learn
 # -------------
 
-def netflix_learn (toFile = True, verbose = False) :
+def netflix_learn () :
     """
     Read entire training set and calculate average ratings for movies and customers.
     @param toFile: store learned data to cache file
@@ -109,7 +124,8 @@ def netflix_learn (toFile = True, verbose = False) :
     @param verbose: print status during learning
     @type verbose: bool
     """
-    global MOVIES_DIR, actualRatings, probe
+    global toFile, verbose
+    global MOVIES_DIR
     
     # gather all ratings data from training set
     for movieID in range(1,NUM_MOVIES + 1):
@@ -122,47 +138,14 @@ def netflix_learn (toFile = True, verbose = False) :
             temp = thisFile[j].partition(",")
             custID = temp[0]
             rating = ord(temp[2][0])-48
-            addMovieRating(movieID,custID,rating);
+            add_movie_rating(movieID,custID,rating);
             
         if verbose :
             print "Brain absorbed knowledge of Movie " + str(movieID) + " from training set."
     
+    if calcRMSE :
+        netflix_buildActualRatings(verbose)
     
-    # generate actual ratings ordered by probe file
-    f = open(PROBE_PATH)
-    probe = f.read()
-    f.close()
-    probe = probe.splitlines()
-    
-    movieID = 0
-    
-    thisMovieRatings = {}
-    tempRatings = []
-    
-    for thisID in probe:
-        i = thisID.find(":")
-        
-        if i > -1 :  # Movie ID - read movie entries
-            lineLen = len(thisID)
-            thisFile = MOVIES_DIR + "mv_00" + ((6-lineLen)*"0") + thisID[0:lineLen-1] + ".txt"
-            movieID = int(thisID[0:lineLen-1])
-            f = open(thisFile, 'r')
-            thisFile = f.readlines()
-            f.close()
-            thisMovieRatings.clear()
-            for j in range (1, len(thisFile)) :
-                temp = thisFile[j].partition(",")
-                thisMovieRatings[temp[0]] = ord(temp[2][0])-48
-            
-            if verbose :
-                print "Grabbing Actual Ratings for Movie " + thisID[0:lineLen-1]
-        else :
-            tempRatings.append(thisMovieRatings[thisID])
-            
-    actualRatings = tuple(tempRatings)
-            
-            
-
     if (toFile) :
         write_brain()
         if verbose :
@@ -170,6 +153,56 @@ def netflix_learn (toFile = True, verbose = False) :
         write_actualRatings()
         if verbose :
             print "New actualRatings Cache written to file: '" + CACHE_RATINGS_FILE + "'"
+    
+    
+
+def netflix_buildActualRatings () :
+    """
+    Generate actual ratings, with order dictated by probe file, to be compared to predictions
+    @param verbose: print status during learning
+    @type verbose: bool
+    """
+    
+    global verbose
+    global MOVIES_DIR, PROBE_PATH
+    global actualRatings, probe
+    
+    # allows for testing with hard-coded probe data
+    if probe == None :
+        f = open(PROBE_PATH)
+        probe = f.read()
+        f.close()
+        probe = probe.splitlines()
+    
+    movieID = 0
+    thisMovieRatings = {}
+    tempRatings = []
+    
+    for thisID in probe:
+        i = thisID.find(":")
+        
+        if i > -1 :  # This is Movie ID - read movie entries
+            
+            lineLen = len(thisID)
+            thisFile = MOVIES_DIR + "mv_00" + ((6-lineLen)*"0") + thisID[0:lineLen-1] + ".txt"
+            movieID = int(thisID[0:lineLen-1])
+            f = open(thisFile, 'r')
+            thisFile = f.readlines()
+            f.close()
+            
+            thisMovieRatings.clear()
+            for j in range (1, len(thisFile)) :
+                temp = thisFile[j].partition(",")
+                thisMovieRatings[temp[0]] = ord(temp[2][0])-48
+            
+            if verbose :
+                print "Grabbing Actual Ratings for Movie " + thisID[0:lineLen-1]
+                
+        else :  #this is a Customer ID, find and add their rating
+            tempRatings.append(thisMovieRatings[thisID])
+            
+    actualRatings = tuple(tempRatings)
+
 
 
 # -----------
@@ -205,6 +238,9 @@ def write_actualRatings() :
     """
     Store actual ratings to cache file.
     """
+    global CACHE_RATINGS_FILE
+    global actualRatings
+    
     cache = open(CACHE_RATINGS_FILE, 'w')
     cache.write("actualRatings = ( ")
     
@@ -223,8 +259,23 @@ def netflix_get_cache() :
     Load movie and customer profiles and actual ratings from cache.
     """
     global movieProfiles, custProfiles, actualRatings
-    cache_brain = __import__(CACHE_BRAIN_MODULE,fromlist=["movieProfiles", "custProfiles"])
-    cache_ratings = __import__(CACHE_RATINGS_MODULE,fromlist=["actualRatings"])
+    global CACHE_BRAIN_MODULE, CACHE_RATINGS_MODULE
+    
+        
+    try :
+        cache_ratings = __import__(CACHE_RATINGS_MODULE,fromlist=["actualRatings"])
+    except ImportError:
+        print "Netflix Actual Ratings Cache File '" + CACHE_RATINGS_FILE + "' not found."
+        print "Try running again without the -cr flag."
+        exit(1)
+        
+    try :
+        cache_brain = __import__(CACHE_BRAIN_MODULE,fromlist=["movieProfiles", "custProfiles"])
+    except ImportError:
+        print "Netflix Brain Cache File '" + CACHE_BRAIN_FILE + "' not found."
+        print "Try running again without the -cr flag."
+        sys.exit(1)
+        
     movieProfiles = cache_brain.movieProfiles
     custProfiles = cache_brain.custProfiles
     actualRatings = cache_ratings.actualRatings
@@ -234,14 +285,18 @@ def netflix_get_cache() :
 # netflix_eval
 # ------------
 
-def netflix_eval (verbose = False) :
+def netflix_eval () :
     """
     Use learned data to evaluate and predict ratings of other movies.
     @param verbose: print status during evaulation
-    @type verbose: bool
+    @type verbose:  bool
+    @return:        calculated RMSE
+    @rtype:         float
     """
+    global verbose
+    global PROBE_PATH, RATINGS_OUTPUT_FILE, RMSE_OUTPUT_FILE
+    global actualRatings, probe, CUST_WEIGHT, MOVIE_WEIGHT
     
-    global actualRatings, probe
     ourRatings = []
     
     if probe == None :
@@ -249,40 +304,48 @@ def netflix_eval (verbose = False) :
         probe = f.read()
         f.close()
         probe = probe.splitlines()
-        
-    o = open(RATINGS_OUTPUT_FILE, 'w')
     
     movieID = 0
-    
     thisMovieRatings = {}
     
+    if(not testing) :
+        o = open(RATINGS_OUTPUT_FILE, 'w')
     for thisID in probe:
         i = thisID.find(":")
         
         if i > -1 :  # Movie ID - read movie entries
             movieID = int(thisID[0:i])
-            o.write(thisID + "\n")
+            if(not testing) :
+                o.write(thisID + "\n")
         else :
             prediction = predict_rating(movieID,thisID)
             ourRatings.append(prediction)
             #prediction = int(prediction*10)/10.0
-            o.write(str(prediction) + "\n")
-    o.close()
-    if verbose :
+            if(not testing) :
+                o.write(str(prediction) + "\n")
+    if(not testing) :
+        o.close()
+    
+    if verbose and not testing:
         print "Brain predictions written to file: '" + RATINGS_OUTPUT_FILE + "'"
             
-
     rmseOut = rmse(tuple(actualRatings), tuple(ourRatings))
     if verbose :
         print "RMSE result: " + str(rmseOut)
-    o = open(RMSE_OUTPUT_FILE, 'w')
-    o.write(str(rmseOut) + '\n')
-    o.close()
-    if verbose :
+    
+    if(not testing) :
+        o = open(RMSE_OUTPUT_FILE, 'w')
+        o.write(str(rmseOut) + '\n')
+        o.close()
+    
+    if verbose and not testing:
         print "RMSE result written to file: '" + RMSE_OUTPUT_FILE + "'"
+    
+    return rmseOut
     
 
 def predict_rating(movieID, custID) :
+    global movieProfiles, custProfiles, CUST_WEIGHT, MOVIE_WEIGHT
     movieAvg = movieProfiles[movieID].avgRating
     movieStd = movieProfiles[movieID].stdDev
     custAvg = custProfiles[custID].avgRating
