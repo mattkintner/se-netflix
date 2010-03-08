@@ -1,0 +1,67 @@
+----------------------------------------
+Project Details
+----------------------------------------
+
+Netflix Project
+CS373 - Software Engineering
+Peter Dorfman (pad574)
+Matt Kintner (mbk229)
+
+
+----------------------------------------
+General Assumptions
+----------------------------------------
+
+The program MUST run on a machine where the directory "/u/downing/public_html/projects/netflix/" contains all the required input files.
+
+We output our files to the current working directory. We made the assumption that we will have the appropriate permissions to write these files. As they are the required output for the program, every time the program runs, regardless of flags, the files "RunNetflix.out" and "RMSE" are written to the current directory.
+
+
+----------------------------------------
+Approximate Running Times
+----------------------------------------
+
+These estimates are based on the flags outlined in the following section.
+
+With Cache Read Flag:   ~30sec - 2min 
+No Flags:               ~25min - 35min
+With Cache Write Flag:  ~25min - 35min
+
+
+----------------------------------------
+Command Line Flags
+----------------------------------------
+
+As is documented in our files, we offer a small selection of flags to dictate certain aspects of how the program runs:
+
+No Flags:
+Program runs without the use of any external cache files. All requried data structures are generated on the fly and held in memory until program terminates.
+
+-v
+Verbose Mode (VERY verbose):
+Prints to standard out status messages and final RMSE to indicate the progress, particularly while running through the large quantities of files.
+
+-cw
+Cache Write Mode:
+With this flag, the profile and actual ratings data structures used in netflix_eval() will be written to external cache files. (NOTE: This flag will be ignored in the presence of the '-cr' flag)
+
+-cr
+Cache Read Mode:
+With this flag, netflix_learn() will not run. The required cache data structures will instead be populated using the external files (written when the '-cw' flag is enabled), which must be located in the current directory. For time-sensitive grading, our generated versions of these files have been included in turnin.
+
+
+Examples:
+
+    python -OO RunPython.py
+        run program using strictly memory, no external cache files read or written
+
+    python -OO RunPython.py -cr
+        run program using the cache files (no external cache files will be written)
+
+    python -OO RunPython.py -cw
+        run program and write the cache files (any external cache files will be created or overwritten)
+
+    python -OO RunPython.py -cw -v
+        run program and write the cache files, giving status updates while learning
+
+
