@@ -150,7 +150,7 @@ def netflix_learn () :
         if verbose :
             print "Brain absorbed knowledge of Movie " + str(movieID) + " from training set."
     
-    netflix_build_actual_ratings(verbose)
+    netflix_build_actual_ratings()
     
     if (toFile) :
         netflix_write_brain()
