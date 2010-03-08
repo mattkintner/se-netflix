@@ -91,7 +91,7 @@ class movieProfile (ratingProfile) :
 # addMovieRating
 # --------------
 
-def add_movie_rating (movieID, custID, rating) :
+def netflix_add_movie_rating (movieID, custID, rating) :
     """
 	Factor movie rating into averages of movie and customer.
     @param movieID: ID of movie  
@@ -145,24 +145,24 @@ def netflix_learn () :
             temp = thisFile[j].partition(",")
             custID = temp[0]
             rating = ord(temp[2][0])-48
-            add_movie_rating(movieID,custID,rating);
+            netflix_add_movie_rating(movieID,custID,rating);
             
         if verbose :
             print "Brain absorbed knowledge of Movie " + str(movieID) + " from training set."
     
-    netflix_buildActualRatings(verbose)
+    netflix_build_actual_ratings(verbose)
     
     if (toFile) :
-        write_brain()
+        netflix_write_brain()
         if verbose :
             print "New 'Brain' Cache written to file: '" + CACHE_BRAIN_FILE + "'"
-        write_actualRatings()
+        netflix_write_actual_ratings()
         if verbose :
             print "New actualRatings Cache written to file: '" + CACHE_RATINGS_FILE + "'"
     
     
 
-def netflix_buildActualRatings () :
+def netflix_build_actual_ratings () :
     """
     Generate actual ratings, with order dictated by probe file, to be compared to predictions
     @param verbose: print status during learning
@@ -218,10 +218,10 @@ def netflix_buildActualRatings () :
 
 
 # -----------
-# write_brain
+# netflix_write_brain
 # -----------
 
-def write_brain() :
+def netflix_write_brain() :
     """
     Store movie and customer profiles to cache.
     """
@@ -245,10 +245,10 @@ def write_brain() :
     
 
 # -------------------
-# write_actualRatings
+# netflix_write_actual_ratings
 # -------------------
     
-def write_actualRatings() :
+def netflix_write_actual_ratings() :
     """
     Store actual ratings to cache file.
     """
@@ -338,7 +338,7 @@ def netflix_eval () :
             if(not testing) :
                 o.write(thisID + "\n")
         else :
-            prediction = predict_rating(movieID,thisID)
+            prediction = netflix_predict_rating(movieID,thisID)
             assert(prediction >= 1.0)
             assert(prediction <= 5.0)
             ourRatings.append(prediction)
@@ -366,7 +366,7 @@ def netflix_eval () :
     return rmseOut
     
 
-def predict_rating(movieID, custID) :
+def netflix_predict_rating(movieID, custID) :
     """
     Compute this user's predicted rating of this movie
     @param movieID:       the ID of the movie this customer will rate
@@ -424,10 +424,10 @@ def rmse (a, p) :
 
 
 # -------------------
-# netflix_testreading
+# netflix_test_reading
 # -------------------
 
-def netflix_testreading () :
+def netflix_test_reading () :
     """
     Predict ratings of all 3's.
     """

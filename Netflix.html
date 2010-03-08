@@ -159,14 +159,14 @@ Data descriptors defined here:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-add_movie_rating"><strong>add_movie_rating</strong></a>(movieID, custID, rating)</dt><dd><tt>&nbsp;&nbsp;&nbsp;&nbsp;Factor&nbsp;movie&nbsp;rating&nbsp;into&nbsp;averages&nbsp;of&nbsp;movie&nbsp;and&nbsp;customer.<br>
+<td width="100%"><dl><dt><a name="-netflix_add_movie_rating"><strong>netflix_add_movie_rating</strong></a>(movieID, custID, rating)</dt><dd><tt>&nbsp;&nbsp;&nbsp;&nbsp;Factor&nbsp;movie&nbsp;rating&nbsp;into&nbsp;averages&nbsp;of&nbsp;movie&nbsp;and&nbsp;customer.<br>
 @param&nbsp;movieID:&nbsp;ID&nbsp;of&nbsp;movie&nbsp;&nbsp;<br>
 @type&nbsp;movieID:&nbsp;int<br>
 @param&nbsp;custID:&nbsp;ID&nbsp;of&nbsp;customer<br>
 @type&nbsp;custID:&nbsp;string<br>
 @param&nbsp;rating:&nbsp;rating&nbsp;given&nbsp;by&nbsp;customer&nbsp;to&nbsp;movie<br>
 @type&nbsp;rating:&nbsp;int</tt></dd></dl>
- <dl><dt><a name="-netflix_buildActualRatings"><strong>netflix_buildActualRatings</strong></a>()</dt><dd><tt>Generate&nbsp;actual&nbsp;ratings,&nbsp;with&nbsp;order&nbsp;dictated&nbsp;by&nbsp;probe&nbsp;file,&nbsp;to&nbsp;be&nbsp;compared&nbsp;to&nbsp;predictions<br>
+ <dl><dt><a name="-netflix_build_actual_ratings"><strong>netflix_build_actual_ratings</strong></a>()</dt><dd><tt>Generate&nbsp;actual&nbsp;ratings,&nbsp;with&nbsp;order&nbsp;dictated&nbsp;by&nbsp;probe&nbsp;file,&nbsp;to&nbsp;be&nbsp;compared&nbsp;to&nbsp;predictions<br>
 @param&nbsp;verbose:&nbsp;print&nbsp;status&nbsp;during&nbsp;learning<br>
 @type&nbsp;verbose:&nbsp;bool</tt></dd></dl>
  <dl><dt><a name="-netflix_eval"><strong>netflix_eval</strong></a>()</dt><dd><tt>Use&nbsp;learned&nbsp;data&nbsp;to&nbsp;evaluate&nbsp;and&nbsp;predict&nbsp;ratings&nbsp;of&nbsp;other&nbsp;movies.<br>
@@ -180,14 +180,16 @@ Data descriptors defined here:<br>
 @type&nbsp;toFile:&nbsp;bool<br>
 @param&nbsp;verbose:&nbsp;print&nbsp;status&nbsp;during&nbsp;learning<br>
 @type&nbsp;verbose:&nbsp;bool</tt></dd></dl>
- <dl><dt><a name="-netflix_testreading"><strong>netflix_testreading</strong></a>()</dt><dd><tt>Predict&nbsp;ratings&nbsp;of&nbsp;all&nbsp;3's.</tt></dd></dl>
- <dl><dt><a name="-predict_rating"><strong>predict_rating</strong></a>(movieID, custID)</dt><dd><tt>Compute&nbsp;this&nbsp;user's&nbsp;predicted&nbsp;rating&nbsp;of&nbsp;this&nbsp;movie<br>
+ <dl><dt><a name="-netflix_predict_rating"><strong>netflix_predict_rating</strong></a>(movieID, custID)</dt><dd><tt>Compute&nbsp;this&nbsp;user's&nbsp;predicted&nbsp;rating&nbsp;of&nbsp;this&nbsp;movie<br>
 @param&nbsp;movieID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;ID&nbsp;of&nbsp;the&nbsp;movie&nbsp;this&nbsp;customer&nbsp;will&nbsp;rate<br>
 @type&nbsp;movieID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int<br>
 @param&nbsp;custID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;ID&nbsp;of&nbsp;the&nbsp;customer&nbsp;to&nbsp;predict&nbsp;for<br>
 @type&nbsp;custID&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string<br>
 @return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;predicted&nbsp;rating<br>
 @rtype:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float</tt></dd></dl>
+ <dl><dt><a name="-netflix_test_reading"><strong>netflix_test_reading</strong></a>()</dt><dd><tt>Predict&nbsp;ratings&nbsp;of&nbsp;all&nbsp;3's.</tt></dd></dl>
+ <dl><dt><a name="-netflix_write_actual_ratings"><strong>netflix_write_actual_ratings</strong></a>()</dt><dd><tt>Store&nbsp;actual&nbsp;ratings&nbsp;to&nbsp;cache&nbsp;file.</tt></dd></dl>
+ <dl><dt><a name="-netflix_write_brain"><strong>netflix_write_brain</strong></a>()</dt><dd><tt>Store&nbsp;movie&nbsp;and&nbsp;customer&nbsp;profiles&nbsp;to&nbsp;cache.</tt></dd></dl>
  <dl><dt><a name="-rmse"><strong>rmse</strong></a>(a, p)</dt><dd><tt>Calculate&nbsp;RMSE.<br>
 &nbsp;<br>
 From&nbsp;provided&nbsp;RMSE.py<br>
@@ -197,8 +199,6 @@ From&nbsp;provided&nbsp;RMSE.py<br>
 @type&nbsp;p:&nbsp;tuple<br>
 @return:&nbsp;root&nbsp;mean&nbsp;squared&nbsp;error<br>
 @rtype:&nbsp;float</tt></dd></dl>
- <dl><dt><a name="-write_actualRatings"><strong>write_actualRatings</strong></a>()</dt><dd><tt>Store&nbsp;actual&nbsp;ratings&nbsp;to&nbsp;cache&nbsp;file.</tt></dd></dl>
- <dl><dt><a name="-write_brain"><strong>write_brain</strong></a>()</dt><dd><tt>Store&nbsp;movie&nbsp;and&nbsp;customer&nbsp;profiles&nbsp;to&nbsp;cache.</tt></dd></dl>
 </td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">

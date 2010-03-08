@@ -6,9 +6,9 @@ import unittest
 import Netflix
 netflix_learn               = Netflix.netflix_learn
 netflix_eval                = Netflix.netflix_eval
-netflix_buildActualRatings  = Netflix.netflix_buildActualRatings
-add_movie_rating            = Netflix.add_movie_rating
-predict_rating              = Netflix.predict_rating
+netflix_build_actual_ratings= Netflix.netflix_build_actual_ratings
+netflix_add_movie_rating    = Netflix.netflix_add_movie_rating
+netflix_predict_rating      = Netflix.netflix_predict_rating
 netflix_get_cache           = Netflix.netflix_get_cache
 
 ratingProfile               = Netflix.ratingProfile
@@ -108,7 +108,7 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(type(Netflix.movieProfiles[1]) is not Netflix.movieProfile);
         
         # add first movie and customer (now 1 movies, 1 customers)
-        add_movie_rating(1,"7",3)
+        netflix_add_movie_rating(1,"7",3)
         self.assert_(len(Netflix.custProfiles) == 1)
         self.assert_(type(Netflix.custProfiles["7"]) is Netflix.custProfile)
         thisCust = Netflix.custProfiles["7"]
@@ -122,7 +122,7 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(thisMovie.stdDev == 0);
         
         # add second customer rating first movie (now 1 movies, 2 customers)
-        add_movie_rating(1,"77",2)
+        netflix_add_movie_rating(1,"77",2)
         self.assert_(len(Netflix.custProfiles) == 2)
         self.assert_(type(Netflix.custProfiles["77"]) is Netflix.custProfile)
         thisCust = Netflix.custProfiles["77"]
@@ -136,7 +136,7 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(thisMovie.stdDev == .5);
         
         # add second movie rated by first customer (now 2 movies, 2 customers)
-        add_movie_rating(3,"7",4)
+        netflix_add_movie_rating(3,"7",4)
         self.assert_(len(Netflix.custProfiles) == 2)
         self.assert_(type(Netflix.custProfiles["7"]) is Netflix.custProfile)
         thisCust = Netflix.custProfiles["7"]
@@ -153,7 +153,7 @@ class TestNetflix(unittest.TestCase) :
     # ----
     # rating prediction
     # ----
-    def test_predict_rating(self) :
+    def test_netflix_predict_rating(self) :
         """
         Test the prediction algorithm
         """
@@ -162,28 +162,28 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(type(Netflix.movieProfiles[1]) is not Netflix.movieProfile);
         
         # movie 1 ratings setup
-        add_movie_rating(1,"7",4)
-        add_movie_rating(1,"8",4)
-        add_movie_rating(1,"9",4)
+        netflix_add_movie_rating(1,"7",4)
+        netflix_add_movie_rating(1,"8",4)
+        netflix_add_movie_rating(1,"9",4)
         
         # customer 1 ratings setup
-        add_movie_rating(2,"1",2)
-        add_movie_rating(3,"1",2)
-        add_movie_rating(4,"1",2)
+        netflix_add_movie_rating(2,"1",2)
+        netflix_add_movie_rating(3,"1",2)
+        netflix_add_movie_rating(4,"1",2)
         
-        self.assert_(predict_rating(1, "1") == 3)
+        self.assert_(netflix_predict_rating(1, "1") == 3)
         
         
     # ----
     # building actual ratings tuple
     # ----
-    def test_buildActualRatings(self) :
+    def test_build_actual_ratings(self) :
         """
         Test the building of the global actualRatings variable
         """
         verifiedRatings         = (5, 3, 3, 2)
         Netflix.probe           = ["2043:", "779760", "92056", "11197", "163:", "2147527"]
-        netflix_buildActualRatings()
+        netflix_build_actual_ratings()
         self.assert_(verifiedRatings == Netflix.actualRatings)
         
         
