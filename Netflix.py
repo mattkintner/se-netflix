@@ -105,11 +105,16 @@ def add_movie_rating (movieID, custID, rating) :
     
     if(movieProfiles[movieID] == None):
         movieProfiles[movieID] = movieProfile()
+        
+    temp = movieProfiles[movieID].numRated
     movieProfiles[movieID].add_rating(rating)
+    assert(movieProfiles[movieID].numRated == temp + 1)
     
     if(custID not in custProfiles):
         custProfiles[custID] = custProfile()
+    temp = custProfiles[custID].numRated
     custProfiles[custID].add_rating(rating)
+    assert(custProfiles[custID].numRated == temp + 1)
     
 
 # -------------
@@ -130,6 +135,8 @@ def netflix_learn () :
     # gather all ratings data from training set
     for movieID in range(1,NUM_MOVIES + 1):
         thisFile = MOVIES_DIR + ("mv_00%05d.txt" % movieID);
+        assert(os.path.exists(thisFile))
+        
         f = open(thisFile, 'r')
         thisFile = f.readlines()
         f.close()
@@ -186,6 +193,9 @@ def netflix_buildActualRatings () :
             lineLen = len(thisID)
             thisFile = MOVIES_DIR + "mv_00" + ((6-lineLen)*"0") + thisID[0:lineLen-1] + ".txt"
             movieID = int(thisID[0:lineLen-1])
+            assert(movieID > 0)
+            assert(movieID <= NUM_MOVIES)
+            
             f = open(thisFile, 'r')
             thisFile = f.readlines()
             f.close()
@@ -193,7 +203,10 @@ def netflix_buildActualRatings () :
             thisMovieRatings.clear()
             for j in range (1, len(thisFile)) :
                 temp = thisFile[j].partition(",")
-                thisMovieRatings[temp[0]] = ord(temp[2][0])-48
+                tempRating = ord(temp[2][0])-48
+                assert(tempRating > 0)
+                assert(tempRating <= 5)
+                thisMovieRatings[temp[0]] = tempRating
             
             if verbose :
                 print "Grabbing Actual Ratings for Movie " + thisID[0:lineLen-1]
@@ -219,11 +232,13 @@ def write_brain() :
     
     for movieProf in movieProfiles:
         if movieProf != None:
+            assert(type(movieProf) is movieProfile)
             cache.write("movieProfile(" + str(movieProf.avgRating) + "," + str(movieProf.numRated) + "," + str(movieProf.Q) + "," + str(movieProf.stdDev) + "), ")
         
     cache.write(" ]\n\ncustProfiles = { ")
     
     for custID, custProf in custProfiles.iteritems():
+        assert(type(custProf) is custProfile)
         cache.write("'" + str(custID) + "' : custProfile(" + str(custProf.avgRating) + "," + str(custProf.numRated) + "," + str(custProf.Q) + "," + str(custProf.stdDev) + "), ")
         
     cache.write(" }\n")
@@ -279,6 +294,12 @@ def netflix_get_cache() :
     movieProfiles = cache_brain.movieProfiles
     custProfiles = cache_brain.custProfiles
     actualRatings = cache_ratings.actualRatings
+    assert(movieProfiles != None)
+    assert(len(movieProfiles) > 0)
+    assert(custProfiles != None)
+    assert(len(custProfiles ) > 0)
+    assert(actualRatings != None)
+    assert(len(actualRatings) > 0)
 
 
 # ------------
@@ -319,6 +340,8 @@ def netflix_eval () :
                 o.write(thisID + "\n")
         else :
             prediction = predict_rating(movieID,thisID)
+            assert(prediction >= 1.0)
+            assert(prediction <= 5.0)
             ourRatings.append(prediction)
             #prediction = int(prediction*10)/10.0
             if(not testing) :
