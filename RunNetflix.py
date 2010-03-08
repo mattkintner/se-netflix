@@ -15,23 +15,6 @@
 import Netflix
 import sys
 
-# ------
-# Reader
-# ------
-
-class Reader (object) :
-    def read (self) :
-        return raw_input()
-
-# ------
-# Writer
-# ------
-
-class Writer (object) :
-    def write (self, a, v) :
-        for i in a :
-            print i,
-        print v
 
 # ----
 # main

@@ -1,0 +1,229 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module Netflix</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>Netflix</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/v/filer4b/v38q001/pdorfman/cs373/proj4/Netflix.py">/v/filer4b/v38q001/pdorfman/cs373/proj4/Netflix.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;----------------------------------<br>
+#&nbsp;Peter&nbsp;Dorfman&nbsp;&nbsp;&nbsp;pad574<br>
+#&nbsp;Matt&nbsp;Kintner&nbsp;&nbsp;&nbsp;&nbsp;mbk229<br>
+#&nbsp;----------------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="Netflix.html#ratingProfile">ratingProfile</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="Netflix.html#custProfile">custProfile</a>
+</font></dt><dt><font face="helvetica, arial"><a href="Netflix.html#movieProfile">movieProfile</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="custProfile">class <strong>custProfile</strong></a>(<a href="Netflix.html#ratingProfile">ratingProfile</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Profile&nbsp;of&nbsp;a&nbsp;customer,&nbsp;including&nbsp;rating&nbsp;statistics.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="Netflix.html#custProfile">custProfile</a></dd>
+<dd><a href="Netflix.html#ratingProfile">ratingProfile</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="Netflix.html#ratingProfile">ratingProfile</a>:<br>
+<dl><dt><a name="custProfile-__init__"><strong>__init__</strong></a>(self, avgRating<font color="#909090">=0.0</font>, numRated<font color="#909090">=0</font>, Q<font color="#909090">=0.0</font>, stdDev<font color="#909090">=0.0</font>)</dt><dd><tt>Initialize&nbsp;this&nbsp;profile.<br>
+@param&nbsp;&nbsp;avgRating:<br>
+@type&nbsp;&nbsp;&nbsp;avgRating:&nbsp;&nbsp;float<br>
+@param&nbsp;&nbsp;numRated:&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;numRated:&nbsp;&nbsp;&nbsp;int<br>
+@param&nbsp;&nbsp;Q:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;Q:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float<br>
+@param&nbsp;&nbsp;stdDev:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;stdDev:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="custProfile-add_rating"><strong>add_rating</strong></a>(self, rating)</dt><dd><tt>Add&nbsp;rating&nbsp;into&nbsp;statistics&nbsp;for&nbsp;this&nbsp;profile.<br>
+@param&nbsp;rating:&nbsp;rating&nbsp;to&nbsp;include<br>
+@type&nbsp;rating:&nbsp;int</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="Netflix.html#ratingProfile">ratingProfile</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="movieProfile">class <strong>movieProfile</strong></a>(<a href="Netflix.html#ratingProfile">ratingProfile</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Profile&nbsp;of&nbsp;a&nbsp;movie,&nbsp;including&nbsp;rating&nbsp;statistics.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="Netflix.html#movieProfile">movieProfile</a></dd>
+<dd><a href="Netflix.html#ratingProfile">ratingProfile</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="Netflix.html#ratingProfile">ratingProfile</a>:<br>
+<dl><dt><a name="movieProfile-__init__"><strong>__init__</strong></a>(self, avgRating<font color="#909090">=0.0</font>, numRated<font color="#909090">=0</font>, Q<font color="#909090">=0.0</font>, stdDev<font color="#909090">=0.0</font>)</dt><dd><tt>Initialize&nbsp;this&nbsp;profile.<br>
+@param&nbsp;&nbsp;avgRating:<br>
+@type&nbsp;&nbsp;&nbsp;avgRating:&nbsp;&nbsp;float<br>
+@param&nbsp;&nbsp;numRated:&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;numRated:&nbsp;&nbsp;&nbsp;int<br>
+@param&nbsp;&nbsp;Q:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;Q:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float<br>
+@param&nbsp;&nbsp;stdDev:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;stdDev:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="movieProfile-add_rating"><strong>add_rating</strong></a>(self, rating)</dt><dd><tt>Add&nbsp;rating&nbsp;into&nbsp;statistics&nbsp;for&nbsp;this&nbsp;profile.<br>
+@param&nbsp;rating:&nbsp;rating&nbsp;to&nbsp;include<br>
+@type&nbsp;rating:&nbsp;int</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="Netflix.html#ratingProfile">ratingProfile</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ratingProfile">class <strong>ratingProfile</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Represents&nbsp;average&nbsp;rating&nbsp;and&nbsp;standard&nbsp;deviation&nbsp;used&nbsp;in&nbsp;a&nbsp;movie&nbsp;or&nbsp;customer&nbsp;profile.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ratingProfile-__init__"><strong>__init__</strong></a>(self, avgRating<font color="#909090">=0.0</font>, numRated<font color="#909090">=0</font>, Q<font color="#909090">=0.0</font>, stdDev<font color="#909090">=0.0</font>)</dt><dd><tt>Initialize&nbsp;this&nbsp;profile.<br>
+@param&nbsp;&nbsp;avgRating:<br>
+@type&nbsp;&nbsp;&nbsp;avgRating:&nbsp;&nbsp;float<br>
+@param&nbsp;&nbsp;numRated:&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;numRated:&nbsp;&nbsp;&nbsp;int<br>
+@param&nbsp;&nbsp;Q:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;Q:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float<br>
+@param&nbsp;&nbsp;stdDev:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@type&nbsp;&nbsp;&nbsp;stdDev:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="ratingProfile-add_rating"><strong>add_rating</strong></a>(self, rating)</dt><dd><tt>Add&nbsp;rating&nbsp;into&nbsp;statistics&nbsp;for&nbsp;this&nbsp;profile.<br>
+@param&nbsp;rating:&nbsp;rating&nbsp;to&nbsp;include<br>
+@type&nbsp;rating:&nbsp;int</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-add_movie_rating"><strong>add_movie_rating</strong></a>(movieID, custID, rating)</dt><dd><tt>&nbsp;&nbsp;&nbsp;&nbsp;Factor&nbsp;movie&nbsp;rating&nbsp;into&nbsp;averages&nbsp;of&nbsp;movie&nbsp;and&nbsp;customer.<br>
+@param&nbsp;movieID:&nbsp;ID&nbsp;of&nbsp;movie&nbsp;&nbsp;<br>
+@type&nbsp;movieID:&nbsp;int<br>
+@param&nbsp;custID:&nbsp;ID&nbsp;of&nbsp;customer<br>
+@type&nbsp;custID:&nbsp;string<br>
+@param&nbsp;rating:&nbsp;rating&nbsp;given&nbsp;by&nbsp;customer&nbsp;to&nbsp;movie<br>
+@type&nbsp;rating:&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-netflix_buildActualRatings"><strong>netflix_buildActualRatings</strong></a>()</dt><dd><tt>Generate&nbsp;actual&nbsp;ratings,&nbsp;with&nbsp;order&nbsp;dictated&nbsp;by&nbsp;probe&nbsp;file,&nbsp;to&nbsp;be&nbsp;compared&nbsp;to&nbsp;predictions<br>
+@param&nbsp;verbose:&nbsp;print&nbsp;status&nbsp;during&nbsp;learning<br>
+@type&nbsp;verbose:&nbsp;bool</tt></dd></dl>
+ <dl><dt><a name="-netflix_eval"><strong>netflix_eval</strong></a>()</dt><dd><tt>Use&nbsp;learned&nbsp;data&nbsp;to&nbsp;evaluate&nbsp;and&nbsp;predict&nbsp;ratings&nbsp;of&nbsp;other&nbsp;movies.<br>
+@param&nbsp;verbose:&nbsp;print&nbsp;status&nbsp;during&nbsp;evaulation<br>
+@type&nbsp;verbose:&nbsp;&nbsp;bool<br>
+@return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;calculated&nbsp;RMSE<br>
+@rtype:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float</tt></dd></dl>
+ <dl><dt><a name="-netflix_get_cache"><strong>netflix_get_cache</strong></a>()</dt><dd><tt>Load&nbsp;movie&nbsp;and&nbsp;customer&nbsp;profiles&nbsp;and&nbsp;actual&nbsp;ratings&nbsp;from&nbsp;cache.</tt></dd></dl>
+ <dl><dt><a name="-netflix_learn"><strong>netflix_learn</strong></a>()</dt><dd><tt>Read&nbsp;entire&nbsp;training&nbsp;set&nbsp;and&nbsp;calculate&nbsp;average&nbsp;ratings&nbsp;for&nbsp;movies&nbsp;and&nbsp;customers.<br>
+@param&nbsp;toFile:&nbsp;store&nbsp;learned&nbsp;data&nbsp;to&nbsp;cache&nbsp;file<br>
+@type&nbsp;toFile:&nbsp;bool<br>
+@param&nbsp;verbose:&nbsp;print&nbsp;status&nbsp;during&nbsp;learning<br>
+@type&nbsp;verbose:&nbsp;bool</tt></dd></dl>
+ <dl><dt><a name="-netflix_testreading"><strong>netflix_testreading</strong></a>()</dt><dd><tt>Predict&nbsp;ratings&nbsp;of&nbsp;all&nbsp;3's.</tt></dd></dl>
+ <dl><dt><a name="-predict_rating"><strong>predict_rating</strong></a>(movieID, custID)</dt><dd><tt>Compute&nbsp;this&nbsp;user's&nbsp;predicted&nbsp;rating&nbsp;of&nbsp;this&nbsp;movie<br>
+@param&nbsp;movieID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;ID&nbsp;of&nbsp;the&nbsp;movie&nbsp;this&nbsp;customer&nbsp;will&nbsp;rate<br>
+@type&nbsp;movieID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int<br>
+@param&nbsp;custID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;ID&nbsp;of&nbsp;the&nbsp;customer&nbsp;to&nbsp;predict&nbsp;for<br>
+@type&nbsp;custID&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string<br>
+@return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;predicted&nbsp;rating<br>
+@rtype:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float</tt></dd></dl>
+ <dl><dt><a name="-rmse"><strong>rmse</strong></a>(a, p)</dt><dd><tt>Calculate&nbsp;RMSE.<br>
+&nbsp;<br>
+From&nbsp;provided&nbsp;RMSE.py<br>
+@param&nbsp;a:&nbsp;actual&nbsp;ratings<br>
+@type&nbsp;a:&nbsp;tuple<br>
+@param&nbsp;p:&nbsp;predicted&nbsp;ratings<br>
+@type&nbsp;p:&nbsp;tuple<br>
+@return:&nbsp;root&nbsp;mean&nbsp;squared&nbsp;error<br>
+@rtype:&nbsp;float</tt></dd></dl>
+ <dl><dt><a name="-write_actualRatings"><strong>write_actualRatings</strong></a>()</dt><dd><tt>Store&nbsp;actual&nbsp;ratings&nbsp;to&nbsp;cache&nbsp;file.</tt></dd></dl>
+ <dl><dt><a name="-write_brain"><strong>write_brain</strong></a>()</dt><dd><tt>Store&nbsp;movie&nbsp;and&nbsp;customer&nbsp;profiles&nbsp;to&nbsp;cache.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>CACHE_BRAIN_FILE</strong> = 'NetflixCache_17770.py'<br>
+<strong>CACHE_BRAIN_MODULE</strong> = 'NetflixCache_17770'<br>
+<strong>CACHE_RATINGS_FILE</strong> = 'NetflixCache_Ratings.py'<br>
+<strong>CACHE_RATINGS_MODULE</strong> = 'NetflixCache_Ratings'<br>
+<strong>CUST_WEIGHT</strong> = 2.0<br>
+<strong>MOVIES_DIR</strong> = '/u/downing/public_html/projects/netflix/training_set/'<br>
+<strong>MOVIE_TITLES_PATH</strong> = '/u/downing/public_html/projects/netflix/movie_titles.txt'<br>
+<strong>MOVIE_WEIGHT</strong> = 2.0<br>
+<strong>NUM_MOVIES</strong> = 17770<br>
+<strong>PROBE_PATH</strong> = '/u/downing/public_html/projects/netflix/probe.txt'<br>
+<strong>RATINGS_OUTPUT_FILE</strong> = 'RunNetflix.out'<br>
+<strong>RMSE_OUTPUT_FILE</strong> = 'RMSE'<br>
+<strong>ROOT_PATH</strong> = '/u/downing/public_html/projects/netflix/'<br>
+<strong>actualRatings</strong> = None<br>
+<strong>custProfiles</strong> = {}<br>
+<strong>movieProfiles</strong> = [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, ...]<br>
+<strong>probe</strong> = None<br>
+<strong>testing</strong> = False<br>
+<strong>toFile</strong> = True<br>
+<strong>verbose</strong> = False</td></tr></table>
+</body></html>

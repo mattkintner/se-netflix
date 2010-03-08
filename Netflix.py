@@ -150,8 +150,7 @@ def netflix_learn () :
         if verbose :
             print "Brain absorbed knowledge of Movie " + str(movieID) + " from training set."
     
-    if calcRMSE :
-        netflix_buildActualRatings(verbose)
+    netflix_buildActualRatings(verbose)
     
     if (toFile) :
         write_brain()
@@ -368,6 +367,15 @@ def netflix_eval () :
     
 
 def predict_rating(movieID, custID) :
+    """
+    Compute this user's predicted rating of this movie
+    @param movieID:       the ID of the movie this customer will rate
+    @type movieID:        int
+    @param custID:        the ID of the customer to predict for
+    @type custID :        string
+    @return:              predicted rating
+    @rtype:               float
+    """
     global movieProfiles, custProfiles, CUST_WEIGHT, MOVIE_WEIGHT
     movieAvg = movieProfiles[movieID].avgRating
     movieStd = movieProfiles[movieID].stdDev

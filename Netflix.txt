@@ -1,0 +1,71 @@
+-----
+Title
+-----
+
+Project #4: Netflix
+
+--------------
+Google Project
+--------------
+
+Issues URL:                             http://code.google.com/p/se-netflix/issues/list
+Wiki   URL:                             http://code.google.com/p/se-netflix/w/list
+
+----------
+Partner #1
+----------
+
+Name:                                   Peter Dorfman
+EID:                                    pad574
+E-mail address:                         peterdorfman@gmail.com
+Predicted number of hours to complete:  18
+Actual    number of hours to complete:  24
+
+----------
+Partner #2
+----------
+
+Name:                                   Matt Kintner
+EID:                                    mbk229
+E-mail address:                         matt.kintner@gmail.com
+Predicted number of hours to complete:  18
+Actual    number of hours to complete:  24
+
+-----------------------
+My Rating of My Partner
+-----------------------
+
+<E-mail rating to the grader.>
+
+-------
+Ratings
+-------
+
+Excellent: Consistently went above and beyond - tutored partner, carried
+more than his/her fair share of the load.
+
+Very Good: Consistently did what he/she was supposed to do, very well
+prepared and cooperative.
+
+Satisfactory: Usually did what he/she was supposed to do, minimally
+prepared and cooperative.
+
+Marginal: Sometimes failed to show up, rarely prepared.
+
+Deficient: Often failed to show up, rarely prepared.
+
+Unsatisfactory: Consistently failed to show up, unprepared.
+
+Superficial: Practically no participation.
+
+No Show: No participation at all.
+
+-------------
+Collaboration
+-------------
+
+I attest to having written every line of code and I take full
+responsibility for the origin of all the code I turn in.
+
+In particular if any of the code was originally written in a previous
+semester I will so acknowledge in this document.

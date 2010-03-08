@@ -15,37 +15,17 @@ ratingProfile               = Netflix.ratingProfile
 custProfile                 = Netflix.custProfile
 movieProfile                = Netflix.movieProfile
 
-# ------
-# Reader
-# ------
-
-class Reader (object) :
-    def __init__ (self, s) :
-        self.s = s
-
-    def read (self) :
-        return self.s
-
-# ------
-# Writer
-# ------
-
-class Writer (object) :
-    def str (self) :
-        return self.s
-
-    def write (self, a, v) :
-        self.s  = str(a[0]) + " "
-        self.s += str(a[1]) + " "
-        self.s += str(v)    + "\n"
 
 # -----------
-# TestCollatz
+# TestNetflix
 # -----------
 
 class TestNetflix(unittest.TestCase) :
     
     def tearDown(self) :
+        """
+        Reset Netflix module globals that may have been edited during a test
+        """
         Netflix.toFile          = True
         Netflix.verbose         = False
         Netflix.testing         = True
@@ -59,14 +39,20 @@ class TestNetflix(unittest.TestCase) :
     # rating profiles
     # ----
 
-    def test_createMovieRating (self) :
+    def test_createMovieProfile (self) :
+        """
+        Create a new movie profile
+        """
         m = movieProfile()
         self.assert_(m.avgRating    == 0)
         self.assert_(m.numRated     == 0)
         self.assert_(m.Q            == 0)
         self.assert_(m.stdDev       == 0)
 
-    def test_createCustRating (self) :
+    def test_createCustProfile (self) :
+        """
+        Create a new customer profile
+        """
         p = custProfile()
         self.assert_(p.avgRating    == 0)
         self.assert_(p.numRated     == 0)
@@ -74,6 +60,9 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(p.stdDev       == 0)
         
     def test_add_rating_cust (self) :
+        """
+        Add ratings to a customer profile
+        """
         p = custProfile()
         p.add_rating(2)
         p.add_rating(4)
@@ -88,6 +77,9 @@ class TestNetflix(unittest.TestCase) :
         self.assert_(p.stdDev       == 2)
 
     def test_add_rating_movie (self) :
+        """
+        Add ratings to a movie profile
+        """
         m = movieProfile()
         m.add_rating(2)
         m.add_rating(4)
@@ -107,6 +99,10 @@ class TestNetflix(unittest.TestCase) :
     # ----
 
     def test_add_ratings (self) :
+        """
+        Add specific ratings of a customer for a movie and test that they 
+        append to the appropriate structures and the structures update correctly
+        """
         self.assert_(len(Netflix.custProfiles) == 0)
         self.assert_(Netflix.movieProfiles[1] == None);
         self.assert_(type(Netflix.movieProfiles[1]) is not Netflix.movieProfile);
@@ -158,7 +154,9 @@ class TestNetflix(unittest.TestCase) :
     # rating prediction
     # ----
     def test_predict_rating(self) :
-        #global movieProfiles, custProfiles, actualRatings, CUST_WEIGHT, MOVIE_WEIGHT
+        """
+        Test the prediction algorithm
+        """
         self.assert_(len(Netflix.custProfiles) == 0)
         self.assert_(Netflix.movieProfiles[1] == None);
         self.assert_(type(Netflix.movieProfiles[1]) is not Netflix.movieProfile);
@@ -180,6 +178,9 @@ class TestNetflix(unittest.TestCase) :
     # building actual ratings tuple
     # ----
     def test_buildActualRatings(self) :
+        """
+        Test the building of the global actualRatings variable
+        """
         verifiedRatings         = (5, 3, 3, 2)
         Netflix.probe           = ["2043:", "779760", "92056", "11197", "163:", "2147527"]
         netflix_buildActualRatings()
@@ -190,6 +191,9 @@ class TestNetflix(unittest.TestCase) :
     # eval
     # ----
     def test_netflix_eval(self) :
+        """
+        Test the evaluation method
+        """
         Netflix.testing         = True
         Netflix.actualRatings   = (5, 3, 2)
         Netflix.probe           = ["2043:", "779760", "11197", "163:", "2147527"]
@@ -199,11 +203,6 @@ class TestNetflix(unittest.TestCase) :
         Netflix.custProfiles    = { '779760' : custProfile(5.0, 1, 0.0, 0.0), '11197' : custProfile(3.0, 1, 0.0, 0.0), '2147527' : custProfile(2.0, 1, 0.0, 0.0),  }
         out = int(netflix_eval() * 100000)/100000.0
         self.assert_(out == 0.27216)
-        
-        
-    # ----
-    # add movie ratings to global lists
-    # ----
 
 
 
